@@ -20,6 +20,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "__test__/daypicker.test.tsx"],
+  "include": ["src/**/*", "__test__/**/*.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

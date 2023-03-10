@@ -1,0 +1,69 @@
+.daypicker__box {
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 16px;
+  position: relative;
+  max-width: 312px;
+  box-shadow: rgb(34 34 34 / 10%) 0px 0px 14px 3px;
+
+  @media (max-width: 312px) {
+    padding: 10px 0;
+  }
+
+  .daypicker__close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .daypicker__title {
+    padding: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+    color: var(--gray-dark);
+  }
+
+  .daypicker__days-box {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-top: 16px;
+  }
+
+  .daypicker__day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 1px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.14;
+    border-radius: 25px;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    flex-basis: calc(100% / 7);
+    flex-shrink: 1;
+    flex-grow: 1;
+    color: var(--gray-dark);
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid var(--gray-light);
+    }
+
+    &:active {
+      border: 1px solid var(--gray-dark);
+    }
+
+    &:focus-visible {
+      outline: 1px solid var(--gray-dark);
+    }
+
+    &.selected {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+  }
+}

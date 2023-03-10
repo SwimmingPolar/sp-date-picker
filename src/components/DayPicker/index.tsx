@@ -23,8 +23,9 @@ export const DayPicker = ({
   const handleClick = useCallback(
     (day: number) => () => {
       onDayClick(day)
+      onCloseClick()
     },
-    [onDayClick]
+    [onDayClick, onCloseClick]
   )
 
   return (

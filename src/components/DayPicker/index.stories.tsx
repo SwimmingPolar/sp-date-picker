@@ -1,7 +1,6 @@
 import { DayPicker } from '@/components'
 import { useDayPicker } from '@/hooks'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { useMemo } from 'react'
 import styled from 'styled-components'
 
 const Box = styled.div`
@@ -18,9 +17,10 @@ export default {
     layout: 'fullscreen'
   },
   args: {
-    title: 'Pick a day!'
+    title: '하루를 선택해주세요!'
   },
   argTypes: {
+    onDayClick: { action: 'selected' },
     onCloseClick: { action: 'closed' }
   }
 } as ComponentMeta<typeof DayPicker>
@@ -32,9 +32,10 @@ const Template: ComponentStory<typeof DayPicker> = args => (
 // We do not wrap 'Box' component in 'Template' component in the above.
 // Because we may need different 'Box' component for each story
 export const Default: ComponentStory<typeof DayPicker> = args => {
+  const { onDayClick, ...rest } = useDayPicker()
   return (
     <Box>
-      <Template {...args} {...useDayPicker(2)} />
+      <Template {...args} {...rest} />
     </Box>
   )
 }

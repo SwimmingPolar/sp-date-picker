@@ -130,16 +130,3 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-
-:root {
-  --background: #f8f8f8;
-  --blue: #2c7fff;
-  --skyblue: #e6f4ff;
-  --red: #ff0000;
-  --text-dark: #444;
-  --text-light: #444;
-  --gray-100: #f2f2f2;
-  --gray-200: #dadada;
-  --gray-300: #b5b5b5;
-  --gray-400: #444;
-}

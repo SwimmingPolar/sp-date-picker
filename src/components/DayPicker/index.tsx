@@ -53,14 +53,14 @@ export const DayPicker = ({
       <div className="daypicker__days-box">
         {days.map((day, index) => (
           <button
+            key={index}
+            tabIndex={0}
+            aria-label={day + ''}
             className={clsx(
               'daypicker__day',
               selectedDay === day ? 'selected' : ''
             )}
-            aria-label={day + ''}
-            tabIndex={0}
             onClick={handleClick(day)}
-            key={index}
             data-testid="day"
           >
             <span>{day}</span>

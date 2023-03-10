@@ -13,7 +13,7 @@ beforeEach(() => {
   onCloseClick = vi.fn()
   component = render(
     <DayPicker
-      title="Pick a day!"
+      title="하루를 선택해주세요!"
       selectedDay={1}
       onDayClick={onDayClick}
       onCloseClick={onCloseClick}
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 it('should render title', () => {
   const { getByTestId } = component
-  expect(getByTestId('title')).toHaveTextContent(/Pick a day!/)
+  expect(getByTestId('title')).toHaveTextContent(/하루를 선택해주세요!/)
 })
 it('should close when close button is clicked', () => {
   const { getByTestId } = component

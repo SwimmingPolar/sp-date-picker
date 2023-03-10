@@ -7,5 +7,5 @@ export const useDayPicker = (preSelectedDay?: number) => {
     setSelectedDay(day)
   }, [])
 
-  return { selectedDay, onDayClick } as const
+  return { selectedDay, setSelectedDay, onDayClick } as const
 }

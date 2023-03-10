@@ -22,7 +22,7 @@
     font-weight: bold;
     text-align: center;
     user-select: none;
-    color: var(--gray-dark);
+    color: var(--text-dark);
   }
 
   .daypicker__days-box {
@@ -46,24 +46,31 @@
     flex-basis: calc(100% / 7);
     flex-shrink: 1;
     flex-grow: 1;
-    color: var(--gray-dark);
+    color: var(--text-dark);
     border: 1px solid transparent;
 
     &:hover {
-      border: 1px solid var(--gray-light);
+      border: 1px solid var(--gray-300);
     }
 
     &:active {
-      border: 1px solid var(--gray-dark);
+      border: 1px solid var(--gray-400);
+      transition: 0.25s ease;
     }
 
     &:focus-visible {
-      outline: 1px solid var(--gray-dark);
+      color: var(--gray-400);
+      outline: 1px solid var(--gray-400);
     }
 
     &.selected {
       color: var(--blue);
       border-color: var(--blue);
+
+      &:focus-visible {
+        color: var(--blue);
+        outline: none;
+      }
     }
   }
 }

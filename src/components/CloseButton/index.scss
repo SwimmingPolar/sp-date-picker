@@ -3,18 +3,28 @@
   padding: 6px;
 
   svg {
-    fill: var(--gray-light);
-    transition: 0.25s ease;
+    fill: var(--gray-200);
   }
 
   &:hover {
     svg {
-      fill: var(--gray-dark);
+      fill: var(--gray-300);
+      transition: 0.25s ease;
+    }
+  }
+
+  &:active {
+    svg {
+      fill: var(--gray-400);
     }
   }
 
   &:focus-visible {
-    outline: 2px solid var(--gray-dark);
+    outline: 2px solid var(--gray-400);
     border-radius: 100%;
+
+    svg {
+      fill: var(--gray-400);
+    }
   }
 }

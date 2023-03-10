@@ -136,6 +136,10 @@ a {
   --blue: #2c7fff;
   --skyblue: #e6f4ff;
   --red: #ff0000;
-  --gray-dark: #444;
-  --gray-light: #b0b0b0;
+  --text-dark: #444;
+  --text-light: #444;
+  --gray-100: #f2f2f2;
+  --gray-200: #dadada;
+  --gray-300: #b5b5b5;
+  --gray-400: #444;
 }

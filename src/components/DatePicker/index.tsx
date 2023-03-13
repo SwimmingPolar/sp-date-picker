@@ -10,9 +10,8 @@ import {
 } from './components'
 import './index.scss'
 
-type DatePickerProps = {
+export type DatePickerProps = {
   title?: string
-  isRange?: boolean
   date?: Date
   setDate?: React.Dispatch<React.SetStateAction<Date | undefined>>
   startDate?: Date
@@ -29,11 +28,12 @@ type DatePickerProps = {
     endDate?: Date
   }) => void
   onCloseClick: () => void
+  isRange?: boolean
+  disablePast?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const DatePicker = ({
   title,
-  isRange,
   date,
   setDate,
   startDate,
@@ -43,6 +43,8 @@ export const DatePicker = ({
   onConfirmClick,
   onCloseClick,
   className,
+  isRange,
+  disablePast,
   ...rest
 }: DatePickerProps) => {
   const [currentDate, setCurrentDate] = useState(date ?? new Date())
@@ -133,6 +135,9 @@ export const DatePicker = ({
         setShouldShowSelectMonth={setShouldShowSelectMonth}
         currentDate={currentDate}
         setCurrentDate={setCurrentDate}
+        startDate={dateBackup.startDate}
+        endDate={dateBackup.endDate}
+        disablePast={disablePast}
       />
 
       {/* SelectMonth / SelectDay */}
@@ -144,10 +149,12 @@ export const DatePicker = ({
           date={dateBackup.date}
           startDate={dateBackup.startDate}
           endDate={dateBackup.endDate}
+          disablePast={disablePast}
         />
       ) : (
         <SelectDay
           isRange={isRange}
+          disablePast={disablePast}
           currentDate={currentDate}
           {...dateBackup}
         />

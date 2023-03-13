@@ -57,3 +57,41 @@ export const isSaturday = (date: Date) =>
   (date.getDate() + 1) % 7 === getFirstSunday(date)
 
 export const Weekend = (date: Date) => isSunday(date) || isSaturday(date)
+
+// Get year, month and date
+// e.g. 2020-01-01
+export const getYearMonthDate = (date: Date) =>
+  new Date(date).toLocaleDateString('default', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  })
+
+// Get year and month
+// e.g. 2020-01
+export const getYearMonth = (date: Date) =>
+  new Date(date).toLocaleDateString('default', {
+    year: 'numeric',
+    month: 'numeric'
+  })
+
+// Get year
+// e.g. 2020
+export const getYear = (date: Date) =>
+  new Date(date).toLocaleDateString('default', {
+    year: 'numeric'
+  })
+
+// Get month
+// e.g. 01
+export const getMonth = (date: Date) =>
+  new Date(date).toLocaleDateString('default', {
+    month: 'numeric'
+  })
+
+// Get date
+// e.g. 01
+export const getDate = (date: Date) =>
+  new Date(date).toLocaleDateString('default', {
+    day: 'numeric'
+  })

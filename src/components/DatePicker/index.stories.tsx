@@ -66,3 +66,14 @@ export const Range: ComponentStory<typeof DatePicker> = args => {
     </Box>
   )
 }
+
+export const DisablePast: ComponentStory<typeof DatePicker> = args => {
+  const datePicker = useDatePicker()
+
+  return (
+    <Box>
+      <Template {...args} {...datePicker} isRange disablePast />
+    </Box>
+  )
+}
+DisablePast.storyName = 'Range - disable past'

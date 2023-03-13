@@ -108,4 +108,10 @@
       outline: none;
     }
   }
+
+  &:disabled {
+    cursor: default;
+    color: var(--gray-200);
+    border-color: transparent;
+  }
 }

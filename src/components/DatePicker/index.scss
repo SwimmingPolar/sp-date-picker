@@ -64,6 +64,14 @@
         fill: var(--gray-400);
       }
     }
+
+    &:disabled {
+      cursor: default;
+      background-color: #fff;
+      svg {
+        fill: var(--gray-100);
+      }
+    }
   }
 
   .datepicker__months-box {
@@ -126,6 +134,9 @@
     }
     &:active {
       border-color: var(--blue);
+    }
+    &:disabled {
+      border-color: transparent;
     }
   }
 

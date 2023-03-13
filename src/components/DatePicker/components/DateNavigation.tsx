@@ -1,17 +1,24 @@
-import React, { useCallback } from 'react'
+import { getYearMonth } from '@/utils'
+import React, { useCallback, useMemo } from 'react'
 
 type DateNavigationProps = {
   shouldShowSelectMonth: boolean
   setShouldShowSelectMonth: React.Dispatch<React.SetStateAction<boolean>>
   currentDate: Date
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>
+  startDate?: Date
+  endDate?: Date
+  disablePast?: boolean
 }
 
 export const DateNavigation = ({
   shouldShowSelectMonth,
   setShouldShowSelectMonth,
   currentDate,
-  setCurrentDate
+  setCurrentDate,
+  startDate,
+  endDate,
+  disablePast
 }: DateNavigationProps) => {
   const handleMonthTitleClick = useCallback(() => {
     setShouldShowSelectMonth(true)
@@ -38,12 +45,35 @@ export const DateNavigation = ({
     [currentDate, setCurrentDate, shouldShowSelectMonth]
   )
 
+  const shouldDisablePreviousButton = useMemo(() => {
+    if (!disablePast || (startDate && endDate)) {
+      return false
+    }
+
+    // start time used here can be either start date or end date
+    const start = (startDate || endDate) as Date
+
+    // On year selection, current year should be greater than or equal to start year
+    if (shouldShowSelectMonth) {
+      const currentYear = new Date(currentDate).getFullYear()
+      const startYear = new Date(start).getFullYear()
+      return currentYear <= startYear
+    }
+    // On month selection, current month should be greater than or equal to start month
+    else {
+      const currentYearMonth = getYearMonth(currentDate)
+      const startYearMonth = getYearMonth(start)
+      return new Date(currentYearMonth) <= new Date(startYearMonth)
+    }
+  }, [currentDate, disablePast, shouldShowSelectMonth, startDate, endDate])
+
   return (
     <div className="datepicker__date-navigation">
       <button
         className="datepicker__date-navigation__previous-button datepicker__date-navigiation__button"
         onClick={handleNavigationClick(-1)}
         data-testid="date-navigation-button-previous"
+        disabled={shouldDisablePreviousButton}
       >
         <svg
           width="10px"

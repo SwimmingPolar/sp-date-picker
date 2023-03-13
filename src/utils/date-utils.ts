@@ -56,7 +56,7 @@ export const isSunday = (date: Date) =>
 export const isSaturday = (date: Date) =>
   (date.getDate() + 1) % 7 === getFirstSunday(date)
 
-export const Weekend = (date: Date) => isSunday(date) || isSaturday(date)
+export const isWeekend = (date: Date) => isSunday(date) || isSaturday(date)
 
 // Get year, month and date
 // e.g. 2020-01-01

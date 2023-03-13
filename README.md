@@ -37,6 +37,17 @@ To be added
 
 ## Date Utilities
 
-```
-To be added
-```
+| Function           | Description                                                             |
+| ------------------ | ----------------------------------------------------------------------- |
+| `getEmptyDays`     | Returns the number of empty days in a month prior to the very first day |
+| `getTotalDays`     | Returns the total number of days in a month                             |
+| `getDayNames`      | Returns an array of day names in default locale                         |
+| `getFirstSunday`   | Returns the day that is the first Sunday of the month                   |
+| `isSunday`         | Check if a date is a Sunday                                             |
+| `isSaturday`       | Check if a date is a Saturday                                           |
+| `isWeekend`        | Check if a date is a weekend (Saturday or Sunday)                       |
+| `getYearMonthDate` | Get a date format of YYYY-MM-DD                                         |
+| `getYearMonth`     | Get a date format of YYYY-MM                                            |
+| `getYear`          | Get a date format of YYYY                                               |
+| `getMonth`         | Get a date format of MM                                                 |
+| `getDate`          | Get a date format of DD                                                 |

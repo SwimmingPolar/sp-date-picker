@@ -51,3 +51,9 @@ To be added
 | `getYear`          | Get a date format of YYYY                                               |
 | `getMonth`         | Get a date format of MM                                                 |
 | `getDate`          | Get a date format of DD                                                 |
+
+## Todo
+
+- [ ] Fix failing tests
+- [ ] Fix a bug in the issue tracker
+- [ ] Add more tests if needed

@@ -12,6 +12,7 @@ export default defineConfig({
     watch: true,
     setupFiles: './__test__/setup.js',
     reporters: 'verbose',
-    include: ['**/*.test.tsx']
+    include: ['**/*.test.tsx'],
+    cache: false
   }
 })

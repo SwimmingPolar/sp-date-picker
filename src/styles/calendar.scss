@@ -87,7 +87,7 @@
   }
 
   &:hover {
-    border: 1px solid var(--gray-400);
+    background-color: var(--skyblue);
   }
 
   &:active {
@@ -113,5 +113,6 @@
     cursor: default;
     color: var(--gray-200);
     border-color: transparent;
+    background-color: #fff;
   }
 }

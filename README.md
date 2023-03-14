@@ -1,4 +1,4 @@
-# Zaritalk Calendar
+# sp-date-picker
 
 Date picker components that allows you to select a day or date range.
 It comes with two components and utility functions to help you with date manipulation.

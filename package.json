@@ -1,7 +1,21 @@
 {
-  "name": "sp-date-picker",
-  "private": true,
-  "version": "0.0.0",
+  "name": "sp-date-picker-test",
+  "version": "0.0.2",
+  "private": false,
+  "author": {
+    "name": "YDH",
+    "email": "swimmingpolar@gmail.com"
+  },
+  "description": "A date picker components for React",
+  "keywords": [
+    "date picker",
+    "react",
+    "typescript",
+    "calendar",
+    "date",
+    "picker"
+  ],
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -21,6 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",
@@ -53,7 +68,7 @@
     "style-loader": "^2.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
-    "vite-tsconfig-paths": "^4.0.5",
+    "vite-tsconfig-paths": "^4.0.7",
     "vitest": "^0.29.2"
   }
 }

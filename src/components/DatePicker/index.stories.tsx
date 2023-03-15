@@ -35,7 +35,7 @@ export const Day: ComponentStory<typeof DatePicker> = args => {
     console.log('date: ', getYearMonthDate(date as Date))
   }, [date])
 
-  return <Template {...args} {...datePicker} />
+  return <Template {...args} {...datePicker} isRange={false} />
 }
 Day.args = {
   title: '날짜를 선택해주세요!'
@@ -54,6 +54,6 @@ export const DisablePast: ComponentStory<typeof DatePicker> = args => {
     open: true
   })
 
-  return <Template {...args} {...datePicker} isRange={false} disablePast />
+  return <Template {...args} {...datePicker} disablePast />
 }
 DisablePast.storyName = 'Range - disable past'

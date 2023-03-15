@@ -67,10 +67,13 @@ export const SelectDay = ({
       const date = new Date(new Date(currentDate).setDate(day))
       // If selecting range
       if (isRange) {
-        // If selected date is already selected, remove it
+        // If newly selected date is already selected, remove it
         const dateString = getDateString(date)
         const startDateString = getDateString(startDate)
         const endDateString = getDateString(endDate)
+        // Compare new date with start and end date to see
+        // the date the user is currenltly selecting is start or end date
+        // and remove accordingly
         if (dateString === startDateString || dateString === endDateString) {
           if (dateString === startDateString) {
             setStartDate?.(undefined)
@@ -81,35 +84,35 @@ export const SelectDay = ({
           return
         }
 
-        // Set new date range if both start and end date are selected
+        // - Set new date range if both start and end date are selected
         if (startDate && endDate) {
           // Set new start date
           setStartDate?.(date)
           // Clear old end date
           setEndDate?.(undefined)
         }
-        // - After selecting start date, select end date
-        else if (startDate && !endDate) {
-          // If the end date is before the start date, swap the dates
-          // e.g. start = 10, end = 5
-          // swap to start = 5, end = 10
-          if (startDate > date) {
-            const temp = startDate
-            setStartDate?.(date)
-            setEndDate?.(new Date(temp))
-          }
-          // Else, set the end date
-          // e.g. start = 5, end = 10
-          else {
-            setEndDate?.(date)
-          }
-        }
         // - Selecting the date for the first time.
+        else if (!startDate && !endDate) {
+          setStartDate?.(date)
+        }
+        // - Set end date if any date is selected (This means selecting end date)
         else {
-          setStartDate?.(() => date)
+          // Get the date that is selected previously (start or end date)
+          const dateSelectedPreviously = (startDate || endDate) as Date
+
+          // If the date selected previously is less than the new date,
+          if (dateSelectedPreviously < date) {
+            // Make sure dateSelectedPreviously goes to start date and date goes to end date
+            setStartDate?.(dateSelectedPreviously)
+            setEndDate?.(date)
+          } else {
+            // Vice versa
+            setStartDate?.(date)
+            setEndDate?.(dateSelectedPreviously)
+          }
         }
       }
-      // Else if, selecting a date
+      // Else if, select a date
       else {
         setDate?.(date)
       }
@@ -125,6 +128,7 @@ export const SelectDay = ({
     ]
   )
 
+  // Check if the day given is selected
   const isSelectedDay = useCallback(
     (day: number) => {
       const date = new Date(new Date(currentDate).setDate(day)).toDateString()
@@ -148,6 +152,7 @@ export const SelectDay = ({
     [currentDate, endDate, startDate, selectedDate]
   )
 
+  // Check if the day is between the selected days
   const isBetweenSelectedDays = useCallback(
     (day: number) => {
       const date = new Date(new Date(currentDate).setDate(day))
@@ -159,11 +164,14 @@ export const SelectDay = ({
     [currentDate, endDate, startDate]
   )
 
+  // Check if start and end date are set
   const isRangeSet = useMemo(() => {
     const isSameDate = startDate?.toDateString() === endDate?.toDateString()
     return startDate && endDate && !isSameDate ? 'range-set' : ''
   }, [startDate, endDate])
 
+  // Check if the day is disabled based on
+  // the disablePast prop and start/end dates
   const shouldDisableDay = useCallback(
     (day: number) => {
       // disablePast should true

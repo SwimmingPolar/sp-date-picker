@@ -1,4 +1,3 @@
-import { selectDayMotion } from '@/components/DatePicker/styles'
 import {
   getDayNames,
   getEmptyDays,
@@ -28,7 +27,7 @@ type SelectDayProps = {
   setEndDate?: React.Dispatch<React.SetStateAction<Date | undefined>>
   isRange?: boolean
   disablePast?: boolean
-  customMotion?: AnimationProps
+  motionConfig: AnimationProps
 }
 
 export const SelectDay = ({
@@ -41,7 +40,7 @@ export const SelectDay = ({
   setEndDate,
   isRange,
   disablePast,
-  customMotion
+  motionConfig
 }: SelectDayProps) => {
   // Get empty days prior to the first day of the month
   const emptyDays = useMemo(() => getEmptyDays(currentDate), [currentDate])
@@ -202,19 +201,11 @@ export const SelectDay = ({
     [disablePast, startDate, endDate, currentDate]
   )
 
-  const combinedMotion = useMemo(
-    () => ({
-      ...selectDayMotion,
-      ...(customMotion || {})
-    }),
-    [customMotion]
-  )
-
   return (
     <motion.div
       className="datepicker__days-box"
       data-testid="days-box"
-      {...combinedMotion}
+      {...motionConfig}
     >
       {
         // Day names

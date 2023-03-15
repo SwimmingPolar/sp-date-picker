@@ -13,6 +13,7 @@ beforeEach(() => {
   onCloseClick = vi.fn()
   component = render(
     <DayPicker
+      open={true}
       title="하루를 선택해주세요!"
       selectedDay={1}
       onDayClick={onDayClick}

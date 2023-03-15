@@ -1,4 +1,3 @@
-import { selectMonthMotion } from '@/components/DatePicker/styles'
 import { getYearMonth } from '@/utils'
 import clsx from 'clsx'
 import { AnimationProps, motion } from 'framer-motion'
@@ -12,7 +11,7 @@ type SelectMonthProps = {
   startDate: Date | undefined
   endDate: Date | undefined
   disablePast?: boolean
-  customMotion?: AnimationProps
+  motionConfig: AnimationProps
 }
 
 export const SelectMonth = ({
@@ -23,7 +22,7 @@ export const SelectMonth = ({
   startDate,
   endDate,
   disablePast,
-  customMotion
+  motionConfig
 }: SelectMonthProps) => {
   const months = useMemo(() => Array.from({ length: 12 }).map((_, i) => i), [])
 
@@ -86,20 +85,11 @@ export const SelectMonth = ({
     [disablePast, startDate, endDate, currentDate]
   )
 
-  // Combined motion from props and default motion
-  const combinedMotion = useMemo(
-    () => ({
-      ...selectMonthMotion,
-      ...(customMotion || {})
-    }),
-    [customMotion]
-  )
-
   return (
     <motion.div
       className="datepicker__months-box"
       data-testid="select-month"
-      {...combinedMotion}
+      {...motionConfig}
     >
       {months.map((month, index) => {
         const monthName = new Date(new Date().setMonth(month)).toLocaleString(

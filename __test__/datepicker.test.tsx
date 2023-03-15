@@ -32,7 +32,7 @@ const renderWithProps = ({
   )
 
   // Render
-  component = render(<Component {...renderProps} />)
+  component = render(<Component open={true} {...renderProps} />)
 }
 
 describe('DatePicker', () => {

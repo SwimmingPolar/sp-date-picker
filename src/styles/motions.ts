@@ -6,15 +6,15 @@ export const backdropMotion = {
 } as AnimationProps
 
 export const containerMotion = {
-  initial: { opacity: 0, y: '-47%' },
-  animate: { opacity: 1, y: '-50%' }
+  initial: { x: '-50%', y: '-46%' },
+  animate: { x: '-50%', y: '-50%' }
 } as AnimationProps
 
 const selectModeTransition = {
   transition: {
     type: 'tween',
     bounce: 0,
-    duration: 0.075,
+    duration: 0.095,
     ease: 'easeInOut'
   }
 }

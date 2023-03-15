@@ -1,6 +1,6 @@
 import { CloseButton } from '@/components'
-import { backdropMotion, containerMotion } from '@/components/DatePicker/styles'
-import { useDatePicker } from '@/hooks'
+import { useDatePicker, useMotion } from '@/hooks'
+import { backdropMotion, containerMotion } from '@/styles/motions'
 import clsx from 'clsx'
 import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -36,8 +36,8 @@ export type DatePickerProps = {
   disablePast?: boolean
   open: boolean
   style?: React.CSSProperties
-  selectMonthMotion?: AnimationProps
-  selectDayMotion?: AnimationProps
+  customSelectMonthMotion?: AnimationProps
+  customSelectDayMotion?: AnimationProps
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const DatePicker = ({
@@ -55,8 +55,8 @@ export const DatePicker = ({
   disablePast,
   open,
   style,
-  selectMonthMotion,
-  selectDayMotion,
+  customSelectMonthMotion,
+  customSelectDayMotion,
   className
 }: DatePickerProps) => {
   const [currentDate, setCurrentDate] = useState(date ?? new Date())
@@ -106,6 +106,12 @@ export const DatePicker = ({
     setStartDate
   ])
 
+  // Get motion config
+  const { selectMonthMotion, selectDayMotion } = useMotion({
+    customSelectMonthMotion,
+    customSelectDayMotion
+  })
+
   const render = useMemo(
     () => (
       <AnimatePresence>
@@ -142,7 +148,7 @@ export const DatePicker = ({
             />
 
             {/* SelectMonth / SelectDay */}
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               {shouldShowSelectMonth && (
                 <SelectMonth
                   setCurrentDate={setCurrentDate}
@@ -152,7 +158,7 @@ export const DatePicker = ({
                   startDate={dateBackup.startDate}
                   endDate={dateBackup.endDate}
                   disablePast={disablePast}
-                  customMotion={selectMonthMotion}
+                  motionConfig={selectMonthMotion}
                   key="select-month"
                 />
               )}
@@ -162,7 +168,7 @@ export const DatePicker = ({
                   disablePast={disablePast}
                   currentDate={currentDate}
                   {...dateBackup}
-                  customMotion={selectDayMotion}
+                  motionConfig={selectDayMotion}
                   key="select-day"
                 />
               )}

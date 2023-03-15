@@ -1,5 +1,5 @@
 import { CloseButton } from '@/components'
-import { backdropMotion, containerMotion } from '@/components/DatePicker/styles'
+import { backdropMotion, containerMotion } from '@/styles/motions'
 import clsx from 'clsx'
 import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -130,7 +130,7 @@ export const DayPicker = ({
         )}
       </>
     ),
-    [render, open, combinedMotion, onBackdropClick]
+    [render, open, onBackdropClick, combinedMotion]
   )
 
   // Enable close on escape key

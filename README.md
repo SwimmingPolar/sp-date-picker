@@ -81,21 +81,21 @@ There are the props you might be interested in.
 
 ### DatePicker
 
-| Option            | Required           | Description                                          | Default           | Type                                  |
-| ----------------- | ------------------ | ---------------------------------------------------- | ----------------- | ------------------------------------- |
-| title             |                    | Title of the date picker                             | Pick dates range! | string                                |
-| date              | <center>o</center> | Currently selected date (used on day picker)         |                   | Date                                  |
-| startDate         | <center>o</center> | Currently selected start date (used on range picker) |                   | Date                                  |
-| endDate           | <center>o</center> | Currently selected end date (used on range picker)   |                   | Date                                  |
-| open              | <center>o</center> | Whether the date picker is open or not               | false             | boolean                               |
-| onConfirmClick    | <center>o</center> | Clled when confirm button is clicked                 |                   | ({ date, startDate, endDate}) => void |
-| onCloseClick      | <center>o</center> | Called when close button is clicked                  |                   | () => void                            |
-| onBackdropClick   |                    | Called when backdrop is clicked                      |                   | () => void                            |
-| isRange           |                    | Whether the date picker is a range picker or not     | true              | boolean                               |
-| disablePast       |                    | Whether to disable past dates when start date is set | false             | boolean                               |
-| style             |                    | CSS styles to be applied to the date picker          |                   | CSSProperties                         |
-| selectMonthMotion |                    | Motion to be applied to the month selection          |                   | AnimationProps (framer-motion)        |
-| selectDayMotion   |                    | Motion to be applied to the day selection            |                   | AnimationProps (framer-motion)        |
+| Option                  | Required           | Description                                          | Default           | Type                                  |
+| ----------------------- | ------------------ | ---------------------------------------------------- | ----------------- | ------------------------------------- |
+| title                   |                    | Title of the date picker                             | Pick dates range! | string                                |
+| date                    | <center>o</center> | Currently selected date (used on day picker)         |                   | Date                                  |
+| startDate               | <center>o</center> | Currently selected start date (used on range picker) |                   | Date                                  |
+| endDate                 | <center>o</center> | Currently selected end date (used on range picker)   |                   | Date                                  |
+| open                    | <center>o</center> | Whether the date picker is open or not               | false             | boolean                               |
+| onConfirmClick          | <center>o</center> | Clled when confirm button is clicked                 |                   | ({ date, startDate, endDate}) => void |
+| onCloseClick            | <center>o</center> | Called when close button is clicked                  |                   | () => void                            |
+| onBackdropClick         |                    | Called when backdrop is clicked                      |                   | () => void                            |
+| isRange                 |                    | Whether the date picker is a range picker or not     | true              | boolean                               |
+| disablePast             |                    | Whether to disable past dates when start date is set | false             | boolean                               |
+| style                   |                    | CSS styles to be applied to the date picker          |                   | CSSProperties                         |
+| customSelectMonthMotion |                    | Motion to be applied to the month selection          |                   | AnimationProps (framer-motion)        |
+| customSelectDayMotion   |                    | Motion to be applied to the day selection            |                   | AnimationProps (framer-motion)        |
 
 ### DayPicker
 

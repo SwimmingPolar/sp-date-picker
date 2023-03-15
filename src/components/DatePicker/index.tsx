@@ -1,7 +1,10 @@
 import { CloseButton } from '@/components'
+import { backdropMotion, containerMotion } from '@/components/DatePicker/styles'
 import { useDatePicker } from '@/hooks'
 import clsx from 'clsx'
-import React, { useCallback, useState } from 'react'
+import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   CalendarFooter,
   DateNavigation,
@@ -28,8 +31,13 @@ export type DatePickerProps = {
     endDate?: Date
   }) => void
   onCloseClick: () => void
+  onBackdropClick?: () => void
   isRange?: boolean
   disablePast?: boolean
+  open: boolean
+  style?: React.CSSProperties
+  selectMonthMotion?: AnimationProps
+  selectDayMotion?: AnimationProps
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const DatePicker = ({
@@ -37,15 +45,19 @@ export const DatePicker = ({
   date,
   setDate,
   startDate,
-  endDate,
   setStartDate,
+  endDate,
   setEndDate,
   onConfirmClick,
   onCloseClick,
-  className,
-  isRange,
+  onBackdropClick,
+  isRange = true,
   disablePast,
-  ...rest
+  open,
+  style,
+  selectMonthMotion,
+  selectDayMotion,
+  className
 }: DatePickerProps) => {
   const [currentDate, setCurrentDate] = useState(date ?? new Date())
   // If dates are not set, show select month component
@@ -69,22 +81,8 @@ export const DatePicker = ({
   const handleConfirmClick = useCallback(() => {
     // On range picker
     if (isRange) {
-      // Allow empty date on both sides
-      // Since there's no logical xor in js,
-      // this is the way to go.
-      if (
-        dateBackup.startDate === undefined &&
-        dateBackup.endDate === undefined
-      ) {
-        setStartDate?.(dateBackup.startDate)
-        setEndDate?.(dateBackup.endDate)
-      }
-
-      // If any of the dates are not set, do nothing
-      if (dateBackup.startDate && dateBackup.endDate) {
-        setStartDate?.(dateBackup.startDate)
-        setEndDate?.(dateBackup.endDate)
-      }
+      setStartDate?.(dateBackup.startDate)
+      setEndDate?.(dateBackup.endDate)
     }
     // On single date picker
     else {
@@ -108,65 +106,144 @@ export const DatePicker = ({
     setStartDate
   ])
 
+  const render = useMemo(
+    () => (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className={clsx('datepicker__box', className ?? '')}
+            tabIndex={-1}
+            data-testid="datepicker"
+            style={style ? style : {}}
+          >
+            {/* DatePicker Title */}
+            <div className="datepicker__title-box">
+              <h1 className="datepicker__title" data-testid="title">
+                {title ? title : 'Pick dates range!'}
+              </h1>
+            </div>
+
+            {/* Close Button */}
+            <CloseButton
+              className="datepicker__close-button"
+              onClick={onCloseClick}
+              data-testid="close-button"
+            />
+
+            {/* Date Navigation */}
+            <DateNavigation
+              shouldShowSelectMonth={shouldShowSelectMonth}
+              setShouldShowSelectMonth={setShouldShowSelectMonth}
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+              startDate={dateBackup.startDate}
+              endDate={dateBackup.endDate}
+              disablePast={disablePast}
+            />
+
+            {/* SelectMonth / SelectDay */}
+            <AnimatePresence mode="wait">
+              {shouldShowSelectMonth && (
+                <SelectMonth
+                  setCurrentDate={setCurrentDate}
+                  setShouldShowSelectMonth={setShouldShowSelectMonth}
+                  currentDate={currentDate}
+                  date={dateBackup.date}
+                  startDate={dateBackup.startDate}
+                  endDate={dateBackup.endDate}
+                  disablePast={disablePast}
+                  customMotion={selectMonthMotion}
+                  key="select-month"
+                />
+              )}
+              {!shouldShowSelectMonth && (
+                <SelectDay
+                  isRange={isRange}
+                  disablePast={disablePast}
+                  currentDate={currentDate}
+                  {...dateBackup}
+                  customMotion={selectDayMotion}
+                  key="select-day"
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Calendar Footer */}
+            <CalendarFooter
+              onClearDateClick={handleClearDateClick}
+              onConfirmClick={handleConfirmClick}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    ),
+    [
+      className,
+      currentDate,
+      dateBackup,
+      disablePast,
+      handleClearDateClick,
+      handleConfirmClick,
+      isRange,
+      onCloseClick,
+      shouldShowSelectMonth,
+      style,
+      title,
+      selectDayMotion,
+      selectMonthMotion,
+      open
+    ]
+  )
+
+  const renderWithPortal = useMemo(
+    () => (
+      <>
+        {createPortal(
+          <AnimatePresence>
+            {open && (
+              <>
+                <motion.div
+                  className="sp-datepicker-container"
+                  {...containerMotion}
+                >
+                  {render}
+                </motion.div>
+                <motion.div
+                  className="sp-datepicker-backdrop"
+                  onClick={onBackdropClick}
+                  {...backdropMotion}
+                />
+              </>
+            )}
+          </AnimatePresence>,
+          document.getElementById('root') as HTMLElement
+        )}
+      </>
+    ),
+    [render, open, onBackdropClick]
+  )
+
+  // Enable close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onCloseClick()
+      }
+    }
+
+    window.addEventListener('keydown', handleEscape)
+    return () => {
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [onCloseClick])
+
   return (
-    <div
-      className={clsx('datepicker__box', className ?? '')}
-      tabIndex={-1}
-      {...rest}
-      data-testid="datepicker"
-    >
-      {/* DatePicker Title */}
-      <div className="datepicker__title-box">
-        <h1 className="datepicker__title" data-testid="title">
-          {title ? title : 'Pick a day!'}
-        </h1>
-      </div>
+    <>
+      {/* Without custom styles render to portal by default */}
+      {!style ? renderWithPortal : null}
 
-      {/* Close Button */}
-      <CloseButton
-        className="datepicker__close-button"
-        onClick={onCloseClick}
-        data-testid="close-button"
-      />
-
-      {/* Date Navigation */}
-      <DateNavigation
-        shouldShowSelectMonth={shouldShowSelectMonth}
-        setShouldShowSelectMonth={setShouldShowSelectMonth}
-        currentDate={currentDate}
-        setCurrentDate={setCurrentDate}
-        startDate={dateBackup.startDate}
-        endDate={dateBackup.endDate}
-        disablePast={disablePast}
-      />
-
-      {/* SelectMonth / SelectDay */}
-      {shouldShowSelectMonth ? (
-        <SelectMonth
-          setCurrentDate={setCurrentDate}
-          setShouldShowSelectMonth={setShouldShowSelectMonth}
-          currentDate={currentDate}
-          date={dateBackup.date}
-          startDate={dateBackup.startDate}
-          endDate={dateBackup.endDate}
-          disablePast={disablePast}
-        />
-      ) : (
-        <SelectDay
-          isRange={isRange}
-          disablePast={disablePast}
-          currentDate={currentDate}
-          {...dateBackup}
-        />
-      )}
-
-      {/* Calendar Footer */}
-      {!shouldShowSelectMonth && (
-        <CalendarFooter
-          onClearDateClick={handleClearDateClick}
-          onConfirmClick={handleConfirmClick}
-        />
-      )}
-    </div>
+      {/* With custom styles, will render the component directly */}
+      {style ? render : null}
+    </>
   )
 }

@@ -1,11 +1,21 @@
 import { useCallback, useState } from 'react'
 
-export const useDayPicker = (preSelectedDay?: number) => {
-  const [selectedDay, setSelectedDay] = useState(preSelectedDay ?? -1)
+type UseDayPickerProps = {
+  preSelectedDay?: number
+  open?: boolean
+}
+
+export const useDayPicker = (props?: UseDayPickerProps) => {
+  const [selectedDay, setSelectedDay] = useState(props?.preSelectedDay ?? -1)
+  const [open, setOpen] = useState(props?.open || false)
 
   const onDayClick = useCallback((day: number) => {
     setSelectedDay(day)
   }, [])
 
-  return { selectedDay, setSelectedDay, onDayClick } as const
+  const handleOpen = useCallback((state: boolean) => {
+    setOpen(state)
+  }, [])
+
+  return { selectedDay, onDayClick, open, handleOpen } as const
 }

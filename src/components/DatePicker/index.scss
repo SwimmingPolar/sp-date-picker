@@ -76,13 +76,14 @@
 
   .datepicker__months-box {
     @include grid(3);
+    padding: 0 10px;
 
     > div {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px 0;
+      padding: 0;
     }
   }
 
@@ -131,9 +132,6 @@
     }
     &.between {
       background-color: var(--skyblue);
-    }
-    &:active {
-      border-color: var(--blue);
     }
     &:disabled {
       border-color: transparent;

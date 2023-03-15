@@ -1,13 +1,20 @@
 import { CloseButton } from '@/components'
+import { backdropMotion, containerMotion } from '@/components/DatePicker/styles'
 import clsx from 'clsx'
-import { useCallback, useMemo } from 'react'
+import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
+import { useCallback, useEffect, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import './index.scss'
 
 type DayPickerProps = {
   title?: string
   selectedDay: number
+  open: boolean
   onDayClick: (day: number) => void
   onCloseClick: () => void
+  onBackdropClick?: () => void
+  style?: React.CSSProperties
+  customMotion?: AnimationProps
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const DayPicker = ({
@@ -15,7 +22,11 @@ export const DayPicker = ({
   selectedDay,
   onDayClick,
   onCloseClick,
+  onBackdropClick,
   className,
+  open,
+  style,
+  customMotion,
   ...rest
 }: DayPickerProps) => {
   const days = useMemo(() => Array.from({ length: 31 }, (_, i) => i + 1), [])
@@ -28,45 +39,121 @@ export const DayPicker = ({
     [onDayClick, onCloseClick]
   )
 
-  return (
-    <div
-      className={clsx('daypicker__box', className ?? '')}
-      tabIndex={-1}
-      {...rest}
-      data-testid="daypicker"
-    >
-      {/* DayPicker Title */}
-      <div className="daypicker__title-box">
-        <h1 className="daypicker__title" data-testid="title">
-          {title ? title : 'Pick a day!'}
-        </h1>
-      </div>
+  const combinedMotion = useMemo(
+    () => ({
+      ...containerMotion,
+      ...(customMotion ? customMotion : {})
+    }),
+    [customMotion]
+  )
 
-      {/* Close Button */}
-      <CloseButton
-        className="daypicker__close-button"
-        onClick={onCloseClick}
-        data-testid="close-button"
-      />
-
-      {/* Days */}
-      <div className="daypicker__days-box">
-        {days.map((day, index) => (
-          <button
-            key={index}
-            tabIndex={0}
-            aria-label={day + ''}
-            className={clsx(
-              'daypicker__day',
-              selectedDay === day ? 'selected' : ''
-            )}
-            onClick={handleClick(day)}
-            data-testid="day"
+  const render = useMemo(
+    () => (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className={clsx('daypicker__box', className ?? '')}
+            tabIndex={-1}
+            data-testid="daypicker"
+            style={style ? style : {}}
           >
-            <span>{day}</span>
-          </button>
-        ))}
-      </div>
-    </div>
+            {/* DayPicker Title */}
+            <div className="daypicker__title-box">
+              <h1 className="daypicker__title" data-testid="title">
+                {title ? title : 'Pick a day!'}
+              </h1>
+            </div>
+
+            {/* Close Button */}
+            <CloseButton
+              className="daypicker__close-button"
+              onClick={onCloseClick}
+              data-testid="close-button"
+            />
+
+            {/* Days */}
+            <div className="daypicker__days-box">
+              {days.map((day, index) => (
+                <button
+                  key={index}
+                  tabIndex={0}
+                  aria-label={day + ''}
+                  className={clsx(
+                    'daypicker__day',
+                    selectedDay === day ? 'selected' : ''
+                  )}
+                  onClick={handleClick(day)}
+                  data-testid="day"
+                >
+                  <span>{day}</span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    ),
+    [
+      title,
+      days,
+      selectedDay,
+      onCloseClick,
+      handleClick,
+      className,
+      style,
+      open
+    ]
+  )
+
+  const renderWithPortal = useMemo(
+    () => (
+      <>
+        {createPortal(
+          <AnimatePresence>
+            {open && (
+              <>
+                <motion.div
+                  className="sp-datepicker-container"
+                  {...combinedMotion}
+                >
+                  {render}
+                </motion.div>
+                <motion.div
+                  className="sp-datepicker-backdrop"
+                  onClick={onBackdropClick}
+                  {...backdropMotion}
+                />
+              </>
+            )}
+          </AnimatePresence>,
+          document.getElementById('root') as HTMLElement
+        )}
+      </>
+    ),
+    [render, open, combinedMotion, onBackdropClick]
+  )
+
+  // Enable close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onCloseClick()
+      }
+    }
+
+    window.addEventListener('keydown', handleEscape)
+    return () => {
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [onCloseClick])
+
+  return (
+    <>
+      {/* Without custom styles render to portal by default */}
+      {!style ? renderWithPortal : null}
+
+      {/* With custom styles, will render the component directly */}
+      {style ? render : null}
+    </>
   )
 }

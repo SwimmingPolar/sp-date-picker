@@ -1,22 +1,8 @@
 import { DatePicker } from '@/components'
 import { useDatePicker } from '@/hooks'
+import { getYearMonthDate } from '@/utils'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useEffect } from 'react'
-import styled from 'styled-components'
-
-const DateToString = (date?: Date) =>
-  date?.toLocaleDateString('default', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric'
-  })
-
-const Box = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #8d8d8d;
-  padding: 15px;
-`
 
 export default {
   title: 'components/DatePicker',
@@ -40,40 +26,34 @@ const Template: ComponentStory<typeof DatePicker> = args => (
 // We do not wrap 'Box' component in 'Template' component in the above.
 // Because we may need different 'Box' component for each story
 export const Day: ComponentStory<typeof DatePicker> = args => {
-  const datePicker = useDatePicker()
+  const datePicker = useDatePicker({
+    open: true
+  })
   const { date } = datePicker
 
   useEffect(() => {
-    console.log('date: ', DateToString(date))
+    console.log('date: ', getYearMonthDate(date as Date))
   }, [date])
 
-  return (
-    <Box>
-      <Template {...args} {...datePicker} />
-    </Box>
-  )
+  return <Template {...args} {...datePicker} />
 }
 Day.args = {
   title: '날짜를 선택해주세요!'
 }
 
 export const Range: ComponentStory<typeof DatePicker> = args => {
-  const datePicker = useDatePicker()
+  const datePicker = useDatePicker({
+    open: true
+  })
 
-  return (
-    <Box>
-      <Template {...args} {...datePicker} isRange />
-    </Box>
-  )
+  return <Template {...args} {...datePicker} />
 }
 
 export const DisablePast: ComponentStory<typeof DatePicker> = args => {
-  const datePicker = useDatePicker()
+  const datePicker = useDatePicker({
+    open: true
+  })
 
-  return (
-    <Box>
-      <Template {...args} {...datePicker} isRange disablePast />
-    </Box>
-  )
+  return <Template {...args} {...datePicker} isRange={false} disablePast />
 }
 DisablePast.storyName = 'Range - disable past'

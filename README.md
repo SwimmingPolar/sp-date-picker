@@ -7,7 +7,7 @@ It comes with two components and utility functions to help you with date manipul
 - DayPicker
 - date utils
 
-[Storybook](https://6411a222f5925f939069a362-wubvnbiuom.chromatic.com/)
+[Storybook](https://6411a222f5925f939069a362-weintypnzr.chromatic.com/)
 
 ## Screenshots
 

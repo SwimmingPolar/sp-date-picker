@@ -32,7 +32,7 @@ To Be Added
 const datePicker = useDatePicker()
 
 // 2. Extract what you need from the hook
-const { handleOpen, startDate, endDate, ...datePicker } = useDatePicker()
+const { handleOpen, startDate, endDate, ...datePicker } = datePicker
 
 // 3. Create handlers that open/close the date picker
 const handleDatePickerOpen = useCallback(() => {

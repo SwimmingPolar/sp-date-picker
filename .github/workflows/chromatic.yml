@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
+      # Specify node version
+      - name: Specify Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - uses: actions/checkout@v1
       - name: Install dependencies
         # 👇 Install dependencies with the same package manager used in the project (replace it as needed), e.g. yarn, npm, pnpm
@@ -23,5 +28,4 @@ jobs:
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
-          node-version: 16
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

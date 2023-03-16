@@ -17,6 +17,10 @@ It comes with two components and utility functions to help you with date manipul
 
 ![day picker](assets/day-picker.png)
 
+## Demo Video
+
+https://user-images.githubusercontent.com/53928959/225493481-6937f8c1-c5db-429d-b05f-932cbf9e5e9c.mp4
+
 ## Installation
 
 ```bash

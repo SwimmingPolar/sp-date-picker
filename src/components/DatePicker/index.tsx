@@ -1,5 +1,6 @@
 import { CloseButton } from '@/components'
 import { useDatePicker, useMotion } from '@/hooks'
+import { Provider } from '@/provider'
 import { backdropMotion, containerMotion } from '@/styles/motions'
 import clsx from 'clsx'
 import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
@@ -11,7 +12,7 @@ import {
   SelectDay,
   SelectMonth
 } from './components'
-import './index.scss'
+import { StyledBox } from './index.styles'
 
 export type DatePickerProps = {
   title?: string
@@ -114,74 +115,78 @@ export const DatePicker = ({
 
   const render = useMemo(
     () => (
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className={clsx('datepicker__box', className ?? '')}
-            tabIndex={-1}
-            data-testid="datepicker"
-            style={style ? style : {}}
-          >
-            {/* DatePicker Title */}
-            <div className="datepicker__title-box">
-              <h1 className="datepicker__title" data-testid="title">
-                {title ? title : 'Pick dates range!'}
-              </h1>
-            </div>
+      <Provider>
+        <StyledBox>
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                className={clsx('datepicker__box', className ?? '')}
+                tabIndex={-1}
+                data-testid="datepicker"
+                style={style ? style : {}}
+              >
+                {/* DatePicker Title */}
+                <div className="datepicker__title-box">
+                  <h1 className="datepicker__title" data-testid="title">
+                    {title ? title : 'Pick dates range!'}
+                  </h1>
+                </div>
 
-            {/* Close Button */}
-            <CloseButton
-              className="datepicker__close-button"
-              onClick={onCloseClick}
-              data-testid="close-button"
-            />
+                {/* Close Button */}
+                <CloseButton
+                  className="datepicker__close-button"
+                  onClick={onCloseClick}
+                  data-testid="close-button"
+                />
 
-            {/* Date Navigation */}
-            <DateNavigation
-              shouldShowSelectMonth={shouldShowSelectMonth}
-              setShouldShowSelectMonth={setShouldShowSelectMonth}
-              currentDate={currentDate}
-              setCurrentDate={setCurrentDate}
-              startDate={dateBackup.startDate}
-              endDate={dateBackup.endDate}
-              disablePast={disablePast}
-            />
-
-            {/* SelectMonth / SelectDay */}
-            <AnimatePresence mode="wait" initial={false}>
-              {shouldShowSelectMonth && (
-                <SelectMonth
-                  setCurrentDate={setCurrentDate}
+                {/* Date Navigation */}
+                <DateNavigation
+                  shouldShowSelectMonth={shouldShowSelectMonth}
                   setShouldShowSelectMonth={setShouldShowSelectMonth}
                   currentDate={currentDate}
-                  date={dateBackup.date}
+                  setCurrentDate={setCurrentDate}
                   startDate={dateBackup.startDate}
                   endDate={dateBackup.endDate}
                   disablePast={disablePast}
-                  motionConfig={selectMonthMotion}
-                  key="select-month"
                 />
-              )}
-              {!shouldShowSelectMonth && (
-                <SelectDay
-                  isRange={isRange}
-                  disablePast={disablePast}
-                  currentDate={currentDate}
-                  {...dateBackup}
-                  motionConfig={selectDayMotion}
-                  key="select-day"
-                />
-              )}
-            </AnimatePresence>
 
-            {/* Calendar Footer */}
-            <CalendarFooter
-              onClearDateClick={handleClearDateClick}
-              onConfirmClick={handleConfirmClick}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {/* SelectMonth / SelectDay */}
+                <AnimatePresence mode="wait" initial={false}>
+                  {shouldShowSelectMonth && (
+                    <SelectMonth
+                      setCurrentDate={setCurrentDate}
+                      setShouldShowSelectMonth={setShouldShowSelectMonth}
+                      currentDate={currentDate}
+                      date={dateBackup.date}
+                      startDate={dateBackup.startDate}
+                      endDate={dateBackup.endDate}
+                      disablePast={disablePast}
+                      motionConfig={selectMonthMotion}
+                      key="select-month"
+                    />
+                  )}
+                  {!shouldShowSelectMonth && (
+                    <SelectDay
+                      isRange={isRange}
+                      disablePast={disablePast}
+                      currentDate={currentDate}
+                      {...dateBackup}
+                      motionConfig={selectDayMotion}
+                      key="select-day"
+                    />
+                  )}
+                </AnimatePresence>
+
+                {/* Calendar Footer */}
+                <CalendarFooter
+                  onClearDateClick={handleClearDateClick}
+                  onConfirmClick={handleConfirmClick}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </StyledBox>
+      </Provider>
     ),
     [
       className,

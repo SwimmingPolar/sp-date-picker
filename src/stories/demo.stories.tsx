@@ -1,12 +1,48 @@
 import { DatePicker, DayPicker } from '@/components'
 import { useDatePicker, useDayPicker } from '@/hooks'
+import { Theme } from '@/styles/calendar'
 import { getYearMonthDate } from '@/utils'
 import { useCallback, useMemo } from 'react'
 import styled from 'styled-components'
-import './demo.scss'
 
 const Box = styled.div`
   padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  figure figcaption h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: ${({ theme }: { theme: Theme }) => theme.color.textDark};
+    padding-top: 15px;
+  }
+
+  .datepicker__input-box {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .demo__input {
+    border: 1px solid ${({ theme }: { theme: Theme }) => theme.color.gray200};
+    width: 250px;
+    padding: 10px;
+    cursor: text;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: ${({ theme }: { theme: Theme }) => theme.color.gray300};
+    }
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid
+      ${({ theme }: { theme: Theme }) => theme.color.gray200};
+    margin: 0;
+  }
 `
 
 export default {
@@ -37,7 +73,7 @@ const RangePickerDemo = () => {
   }, [endDate])
 
   return (
-    <div className="box">
+    <Box>
       <figure>
         <figcaption>
           <h1>Date Picker</h1>
@@ -66,7 +102,7 @@ const RangePickerDemo = () => {
           />
         </div>
       </figure>
-    </div>
+    </Box>
   )
 }
 
@@ -89,7 +125,7 @@ const SingleDatePickerDemo = () => {
   }, [date])
 
   return (
-    <div className="box">
+    <Box>
       <figure>
         <figcaption>
           <h1>Date Picker - single date</h1>
@@ -110,7 +146,7 @@ const SingleDatePickerDemo = () => {
           />
         </div>
       </figure>
-    </div>
+    </Box>
   )
 }
 
@@ -133,7 +169,7 @@ const DayPickerDemo = () => {
   )
 
   return (
-    <div className="box">
+    <Box>
       <figure>
         <figcaption>
           <h1>Date Picker - single date</h1>
@@ -150,7 +186,7 @@ const DayPickerDemo = () => {
           <DayPicker {...dayPicker} onCloseClick={handleDayPickerClose} />
         </div>
       </figure>
-    </div>
+    </Box>
   )
 }
 

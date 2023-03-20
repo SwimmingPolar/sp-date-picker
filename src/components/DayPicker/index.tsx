@@ -1,10 +1,11 @@
 import { CloseButton } from '@/components'
+import { Provider } from '@/provider'
 import { backdropMotion, containerMotion } from '@/styles/motions'
 import clsx from 'clsx'
 import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
-import './index.scss'
+import { StyledBox } from './index.styles'
 
 type DayPickerProps = {
   title?: string
@@ -109,23 +110,27 @@ export const DayPicker = ({
     () => (
       <>
         {createPortal(
-          <AnimatePresence>
-            {open && (
-              <>
-                <motion.div
-                  className="sp-datepicker-container"
-                  {...combinedMotion}
-                >
-                  {render}
-                </motion.div>
-                <motion.div
-                  className="sp-datepicker-backdrop"
-                  onClick={onBackdropClick}
-                  {...backdropMotion}
-                />
-              </>
-            )}
-          </AnimatePresence>,
+          <Provider>
+            <StyledBox>
+              <AnimatePresence>
+                {open && (
+                  <>
+                    <motion.div
+                      className="sp-datepicker-container"
+                      {...combinedMotion}
+                    >
+                      {render}
+                    </motion.div>
+                    <motion.div
+                      className="sp-datepicker-backdrop"
+                      onClick={onBackdropClick}
+                      {...backdropMotion}
+                    />
+                  </>
+                )}
+              </AnimatePresence>
+            </StyledBox>
+          </Provider>,
           document.getElementById('root') as HTMLElement
         )}
       </>

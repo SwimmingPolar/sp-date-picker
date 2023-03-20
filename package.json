@@ -1,6 +1,6 @@
 {
   "name": "sp-date-picker-test",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "private": false,
   "author": {
     "name": "YDH",
@@ -16,6 +16,15 @@
     "picker"
   ],
   "license": "MIT",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -67,6 +76,7 @@
     "style-loader": "^2.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
+    "vite-plugin-dts": "^2.1.0",
     "vite-tsconfig-paths": "^4.0.7",
     "vitest": "^0.29.2"
   }

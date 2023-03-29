@@ -32,6 +32,8 @@ npm install sp-date-picker
 ### DatePicker
 
 ```javascript
+import { DatePicker, getYearMonthDate, useDatePicker } from 'sp-date-picker'
+
 // 1. Use the hook provided
 const datePicker = useDatePicker()
 

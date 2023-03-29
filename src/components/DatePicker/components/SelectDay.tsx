@@ -230,7 +230,7 @@ export const SelectDay = ({
         ))
       }
       {days.map((day, index) => (
-        <div key={index}>
+        <div key={index} className="datepicker__day-box">
           <button
             tabIndex={0}
             aria-label={day + ''}

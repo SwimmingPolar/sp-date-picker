@@ -58,7 +58,8 @@ export const DatePicker = ({
   style,
   customSelectMonthMotion,
   customSelectDayMotion,
-  className
+  className,
+  id
 }: DatePickerProps) => {
   const [currentDate, setCurrentDate] = useState(date ?? new Date())
   // If dates are not set, show select month component
@@ -120,6 +121,7 @@ export const DatePicker = ({
           <AnimatePresence>
             {open && (
               <motion.div
+                id={id}
                 className={clsx('datepicker__box', className ?? '')}
                 tabIndex={-1}
                 data-testid="datepicker"
@@ -202,7 +204,8 @@ export const DatePicker = ({
       title,
       selectDayMotion,
       selectMonthMotion,
-      open
+      open,
+      id
     ]
   )
 
@@ -227,7 +230,7 @@ export const DatePicker = ({
               </>
             )}
           </AnimatePresence>,
-          document.getElementById('root') as HTMLElement
+          document.querySelector('body') as HTMLElement
         )}
       </>
     ),

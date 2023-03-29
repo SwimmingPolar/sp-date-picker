@@ -24,6 +24,7 @@ export const DayPicker = ({
   onDayClick,
   onCloseClick,
   onBackdropClick,
+  id,
   className,
   open,
   style,
@@ -53,6 +54,7 @@ export const DayPicker = ({
       <AnimatePresence>
         {open && (
           <motion.div
+            id={id}
             className={clsx('daypicker__box', className ?? '')}
             tabIndex={-1}
             data-testid="daypicker"
@@ -102,7 +104,8 @@ export const DayPicker = ({
       handleClick,
       className,
       style,
-      open
+      open,
+      id
     ]
   )
 

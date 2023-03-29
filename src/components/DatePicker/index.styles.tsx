@@ -105,14 +105,6 @@ export const StyledBox = styled.div`
       ${mixin.dayName}
     }
 
-    .datepicker__day-box {
-      border-bottom: 1px solid transparent;
-    }
-    .datepicker__day-box:has(.range-set.between) {
-      border-bottom: 1px solid
-        ${({ theme }: { theme: Theme }) => theme.color.skyblue};
-    }
-
     .datepicker__days-box {
       ${mixin.grid(7)}
 

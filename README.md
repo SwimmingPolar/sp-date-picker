@@ -79,6 +79,189 @@ const handleDayPickerClose = useCallback(() => {
 return <DayPicker {...dayPicker} onCloseClick={handleDayPickerClose} />
 ```
 
+## Example
+
+An example of date picker using styled-components
+
+<details>
+<summary>Example</summary>
+
+```javascript
+const Box = styled.div`
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  figure figcaption h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #444;
+    padding-top: 15px;
+  }
+
+  .datepicker__input-box {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .demo__input {
+    border: 1px solid #dadada;
+    width: 250px;
+    padding: 10px;
+    cursor: text;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: 1px solid #b5b5b5;
+    }
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid #dadada;
+    margin: 0;
+  }
+`
+
+function App() {
+  const datePicker = useDatePicker()
+  // Extract what we need from the hook
+  const { handleOpen, startDate, endDate } = datePicker
+  // Create handlers that open/close the date picker
+  const handleDatePickerOpen = useCallback(() => {
+    handleOpen(true)
+  }, [handleOpen])
+  const handleDatePickerClose = useCallback(() => {
+    handleOpen(false)
+  }, [handleOpen])
+
+  // Additionally, we can format the date strings
+  const startDateString = useMemo(() => {
+    return startDate ? getYearMonthDate(startDate) : ''
+  }, [startDate])
+  const endDateString = useMemo(() => {
+    return endDate ? getYearMonthDate(endDate) : ''
+  }, [endDate])
+
+  return (
+    <Box>
+      <figure>
+        <figcaption>
+          <h1>Date Picker</h1>
+        </figcaption>
+        <div className="datepicker__input-box">
+          <input
+            type="text"
+            className="demo__input"
+            readOnly
+            placeholder="Start Date"
+            value={startDateString}
+            onClick={handleDatePickerOpen}
+          />
+          <input
+            type="text"
+            className="demo__input"
+            readOnly
+            placeholder="End Date"
+            value={endDateString}
+            onClick={handleDatePickerOpen}
+          />
+          <DatePicker
+            {...datePicker}
+            onCloseClick={handleDatePickerClose}
+            isRange
+            id="demo"
+          />
+        </div>
+      </figure>
+    </Box>
+  )
+}
+```
+
+</details>
+
+## Custom Styling
+
+If you are willing to customize the styling of the date picker, you can use the `id` prop to pass in your own class name.
+
+_In the code_
+
+```javascript
+<DatePicker
+  {...datePicker}
+  onCloseClick={handleDatePickerClose}
+  isRange
+  // Pass in your own id to customize the styling
+  // This is needed to make higer specificity
+  id="demo"
+/>
+```
+
+_In the css_
+
+```css
+#demo .datepicker__day.selected {
+  background-color: purple;
+  border-color: purple;
+}
+
+#demo .datepicker__day-box:has(.selected) {
+  background-color: purple;
+}
+
+#demo .datepicker__day-box:has(.between) {
+  background-color: purple;
+}
+```
+
+Target the `id` you passed in to the date picker and select the element you want to customize. **You can see what selector you are looking for by inspecting the element in the browser.**
+
+Here are few examples of css selectors you can use to customize the styling.
+
+| Selector                                                                  |
+| ------------------------------------------------------------------------- |
+| .datepicker\_\_day.selected                                               |
+| .datepicker\_\_day-box:has(.selected)                                     |
+| .datepicker\_\_day-box:has(.between)                                      |
+| .datepicker\_\_day:hover                                                  |
+| .datepicker\_\_month.selected                                             |
+| .datepicker\_\_footer\_\_clear-date-button.datepicker\_\_footer\_\_button |
+| .datepicker\_\_footer\_\_confirm-button.datepicker\_\_footer\_\_button    |
+
+Try including the below css in your project to see how it looks like.
+
+_Custom Style_
+![custom styling](assets/styling.png)
+
+_CSS_
+
+```css
+#demo .datepicker__footer__clear-date-button.datepicker__footer__button span {
+  color: gray;
+}
+
+#demo .datepicker__footer__confirm-button.datepicker__footer__button {
+  background-color: #ffac2c;
+}
+
+#demo .datepicker__day.selected {
+  background-color: #ffac2c;
+  border-color: #ffac2c;
+}
+
+#demo .datepicker__day-box:has(.selected) {
+  background-color: #fff1e6;
+}
+
+#demo .datepicker__day-box:has(.between) {
+  background-color: #fff1e6;
+}
+```
+
 ## Options
 
 There are the props you might be interested in.

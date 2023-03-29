@@ -24,7 +24,7 @@ https://user-images.githubusercontent.com/53928959/225493481-6937f8c1-c5db-429d-
 ## Installation
 
 ```bash
-To Be Added
+npm install sp-date-picker
 ```
 
 ## Usage
@@ -234,10 +234,11 @@ Here are few examples of css selectors you can use to customize the styling.
 
 Try including the below css in your project to see how it looks like.
 
-_Custom Style_
+**Custom Style**
+
 ![custom styling](assets/styling.png)
 
-_CSS_
+**CSS**
 
 ```css
 #demo .datepicker__footer__clear-date-button.datepicker__footer__button span {

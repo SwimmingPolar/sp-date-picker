@@ -2,9 +2,6 @@ import { mixin, Theme } from '@/styles/calendar'
 import styled from 'styled-components'
 
 export const StyledBox = styled.div`
-  h1 {
-    color: blue;
-  }
   .datepicker__box {
     ${mixin.calendarLayout}
 
@@ -108,6 +105,14 @@ export const StyledBox = styled.div`
       ${mixin.dayName}
     }
 
+    .datepicker__day-box {
+      border-bottom: 1px solid transparent;
+    }
+    .datepicker__day-box:has(.range-set.between) {
+      border-bottom: 1px solid
+        ${({ theme }: { theme: Theme }) => theme.color.skyblue};
+    }
+
     .datepicker__days-box {
       ${mixin.grid(7)}
 
@@ -138,10 +143,6 @@ export const StyledBox = styled.div`
       &.selected {
         color: #fff;
         background-color: ${({ theme }: { theme: Theme }) => theme.color.blue};
-      }
-      &.between {
-        background-color: ${({ theme }: { theme: Theme }) =>
-          theme.color.skyblue};
       }
       &:disabled {
         border-color: transparent;

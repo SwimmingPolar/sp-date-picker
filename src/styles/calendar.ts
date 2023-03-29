@@ -46,6 +46,7 @@ export const mixin = {
     position: absolute;
     top: 12px;
     right: 12px;
+    cursor: pointer;
   `,
   title: css`
     padding: 4px;

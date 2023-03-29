@@ -16,7 +16,7 @@ export const getEmptyDays = (date: Date) => {
 // 4. Get the date
 export const getTotalDays = (date: Date) => {
   const nextMonth = new Date(
-    new Date(new Date(date).setMonth(date.getMonth() + 1)).setDate(1)
+    new Date(date.setDate(1)).setMonth(date.getMonth() + 1)
   )
 
   const days = new Date(nextMonth.setDate(nextMonth.getDate() - 1)).getDate()

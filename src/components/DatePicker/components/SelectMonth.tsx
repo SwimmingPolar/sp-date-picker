@@ -52,7 +52,7 @@ export const SelectMonth = ({
   const handleMonthClick = useCallback(
     (month: number) => () => {
       // Set the calendar to show the selected month
-      setCurrentDate(new Date(currentDate.setMonth(month)))
+      setCurrentDate(new Date(new Date(currentDate.setDate(1)).setMonth(month)))
       // Hide the select month component to show days of the selected month
       setShouldShowSelectMonth(false)
     },
@@ -92,12 +92,12 @@ export const SelectMonth = ({
       {...motionConfig}
     >
       {months.map((month, index) => {
-        const monthName = new Date(new Date().setMonth(month)).toLocaleString(
-          'default',
-          {
-            month: 'long'
-          }
-        )
+        const monthName = new Date(
+          new Date(new Date().setDate(1)).setMonth(month)
+        ).toLocaleString('default', {
+          month: 'long'
+        })
+
         return (
           <div key={index}>
             <button

@@ -129,7 +129,7 @@ export const DayPicker = ({
               </>
             )}
           </AnimatePresence>,
-          document.getElementById('root') as HTMLElement
+          document.querySelector('body') as HTMLElement
         )}
       </>
     ),

@@ -1,8 +1,20 @@
 import { DayPicker } from '@/components'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
+
+vi.mock('framer-motion', async () => {
+  const actual = await vi.importActual<typeof import('framer-motion')>(
+    'framer-motion'
+  )
+
+  return {
+    ...actual,
+    AnimatePresence: ({ children }: PropsWithChildren) => children
+  }
+})
 
 let component: ReturnType<typeof render>
 let onDayClick: ReturnType<typeof vi.fn>

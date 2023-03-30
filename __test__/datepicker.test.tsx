@@ -2,8 +2,20 @@ import { DatePicker, DatePickerProps } from '@/components'
 import { DisablePast, Range } from '@/components/DatePicker/index.stories'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { PropsWithChildren } from 'react'
 import { act } from 'react-dom/test-utils'
 import { it, vi } from 'vitest'
+
+vi.mock('framer-motion', async () => {
+  const actual = await vi.importActual<typeof import('framer-motion')>(
+    'framer-motion'
+  )
+
+  return {
+    ...actual,
+    AnimatePresence: ({ children }: PropsWithChildren) => children
+  }
+})
 
 let component: ReturnType<typeof render>
 let onConfirmClick: ReturnType<typeof vi.fn>
@@ -59,7 +71,7 @@ describe('DatePicker', () => {
     expect(queryByTestId('days-box')).not.toBeInTheDocument()
   })
   it('should show select day component when month is selected', () => {
-    const { getByTestId, getAllByTestId, queryByTestId } = component
+    const { getByTestId, getAllByTestId, queryByTestId, debug } = component
     const monthButtons = getAllByTestId('month-button')
     act(() => {
       userEvent.click(monthButtons[0])
@@ -119,7 +131,7 @@ describe('DatePicker', () => {
       expect(currentMonth).toBe(1)
     })
     it('should change the year when the next button is clicked', () => {
-      const { getByTestId, getAllByTestId } = component
+      const { getByTestId } = component
       const previousButton = getByTestId('date-navigation-button-previous')
       const nextButton = getByTestId('date-navigation-button-next')
 
@@ -154,7 +166,6 @@ describe('DatePicker', () => {
       expect(previousYear).toBe(currentYear)
     })
   })
-  it.todo('should show correct calendar page when clicked on input with date')
 })
 
 describe('Range Picker', () => {
@@ -251,8 +262,8 @@ describe('Range Picker with disablePast', () => {
   })
 
   // @Todo: Fix this test
-  it('should disable previous months when disablePast is set', () => {
-    const { debug, getByTestId, getAllByTestId } = component
+  it('should disable previous months when disablePast is set', async () => {
+    const { getByTestId, getAllByTestId } = component
 
     // Click on February (the year do not matter)
     const months = getAllByTestId('month-button')
@@ -262,6 +273,7 @@ describe('Range Picker with disablePast', () => {
 
     // Click on the any day of the month
     const days = getAllByTestId('day-button')
+
     act(() => {
       userEvent.click(days[5])
     })
@@ -271,9 +283,9 @@ describe('Range Picker with disablePast', () => {
     // Check if the previous button is disabled
     expect(previousButton).toBeDisabled()
 
-    // Remove start date by clicking on it
+    // Remove start date by clicking on it again
     act(() => {
-      userEvent.click(days[0])
+      userEvent.click(days[5])
     })
 
     // Check if the previous button is enabled
@@ -352,6 +364,7 @@ describe('Range Picker with disablePast', () => {
 
     // Check if the previous button is disabled
     const previousButton = getByTestId('date-navigation-button-previous')
+
     expect(previousButton).toBeDisabled()
   })
 })

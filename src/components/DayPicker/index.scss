@@ -1,0 +1,21 @@
+@import '../../styles/calendar.scss';
+
+.daypicker__box {
+  @include calendarLayout;
+
+  .daypicker__close-button {
+    @include calendarCloseButton;
+  }
+
+  .daypicker__title {
+    @include calendarTitle;
+  }
+
+  .daypicker__days-box {
+    @include calendarGrid(7);
+  }
+
+  .daypicker__day {
+    @include calendarDay;
+  }
+}

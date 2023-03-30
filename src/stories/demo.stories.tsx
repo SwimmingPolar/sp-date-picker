@@ -1,6 +1,5 @@
 import { DatePicker, DayPicker } from '@/components'
 import { useDatePicker, useDayPicker } from '@/hooks'
-import { Theme } from '@/styles/calendar'
 import { getYearMonthDate } from '@/utils'
 import { useCallback, useMemo } from 'react'
 import styled from 'styled-components'
@@ -15,7 +14,7 @@ const Box = styled.div`
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: ${({ theme }: { theme: Theme }) => theme.color.textDark};
+    color: var(--textDark);
     padding-top: 15px;
   }
 
@@ -26,21 +25,20 @@ const Box = styled.div`
   }
 
   .demo__input {
-    border: 1px solid ${({ theme }: { theme: Theme }) => theme.color.gray200};
+    border: 1px solid var(--gray200);
     width: 250px;
     padding: 10px;
     cursor: text;
     border-radius: 4px;
 
     &::placeholder {
-      color: ${({ theme }: { theme: Theme }) => theme.color.gray300};
+      color: var(--gray300);
     }
   }
 
   hr {
     border: 0;
-    border-top: 1px solid
-      ${({ theme }: { theme: Theme }) => theme.color.gray200};
+    border-top: 1px solid var(--gray200);
     margin: 0;
   }
 `

@@ -1,0 +1,30 @@
+.date-picker__close-button {
+  cursor: pointer;
+  padding: 6px;
+
+  svg {
+    fill: var(--gray200);
+  }
+
+  &:hover {
+    svg {
+      fill: var(--gray300);
+      transition: 0.25s ease;
+    }
+  }
+
+  &:active {
+    svg {
+      fill: var(--gray400);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--gray400);
+    border-radius: 100%;
+
+    svg {
+      fill: var(--gray400);
+    }
+  }
+}

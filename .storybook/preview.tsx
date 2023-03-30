@@ -1,6 +1,4 @@
-import { withProvider } from '../src/provider'
-
-export const decorators = [withProvider]
+import '../src/styles/globals.scss'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },

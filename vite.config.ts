@@ -4,6 +4,7 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import libCss from 'vite-plugin-libcss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,7 +13,8 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true
-    })
+    }),
+    libCss()
   ],
   test: {
     globals: true,
@@ -24,6 +26,7 @@ export default defineConfig({
     cache: false
   },
   build: {
+    cssCodeSplit: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'index',

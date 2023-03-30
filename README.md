@@ -350,5 +350,5 @@ const handleDatePickerClose = useCallback(() => {
 
 ## Todo
 
-- [ ] Fix failing tests
-- [ ] Add more tests if needed
+- [x] Fix failing tests
+- [ ] ~~Add more tests if needed~~

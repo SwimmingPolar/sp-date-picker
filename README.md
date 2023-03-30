@@ -3,23 +3,7 @@
 Date picker components that allows you to select a day or date range.
 It comes with two components and utility functions to help you with date manipulation.
 
-- RangePicker
-- DayPicker
-- date utils
-
-[Storybook](https://6411a222f5925f939069a362-cqueebvdjx.chromatic.com/?path=/story/demo--demo)
-
-## Screenshots
-
-![range picker](assets/range-picker.png)
-
-<br/>
-
-![day picker](assets/day-picker.png)
-
-## Demo Video
-
-https://user-images.githubusercontent.com/53928959/225493481-6937f8c1-c5db-429d-b05f-932cbf9e5e9c.mp4
+[Demo](https://6411a222f5925f939069a362-cqueebvdjx.chromatic.com/?path=/story/demo--demo)
 
 ## Installation
 
@@ -32,107 +16,17 @@ npm install sp-date-picker
 ### DatePicker
 
 ```javascript
+import { useCallback, useMemo } from 'react'
 import { DatePicker, getYearMonthDate, useDatePicker } from 'sp-date-picker'
 
-// 1. Use the hook provided
-const datePicker = useDatePicker()
-
-// 2. Extract what you need from the hook
-const { handleOpen, startDate, endDate } = datePicker
-
-// 3. Create handlers that open/close the date picker
-const handleDatePickerOpen = useCallback(() => {
-  handleOpen(true)
-}, [handleOpen])
-const handleDatePickerClose = useCallback(() => {
-  handleOpen(false)
-}, [handleOpen])
-
-// ...
-
-return (
-  // 4. Pass the value returned from the hook to the date picker
-  // 5. Don't forget to pass the onCloseClick handler
-  <DatePicker {...datePicker} onCloseClick={handleDatePickerClose} />
-)
-```
-
-### DayPicker
-
-```javascript
-// 1. Use the hook provided
-const dayPicker = useDayPicker()
-
-// 2. Extract what you need from the hook
-const { selectedDay, handleOpen } = dayPicker
-
-// 3. Create handlers that open/close the date picker
-const handleDayPickerOpen = useCallback(() => {
-  handleOpen(true)
-}, [handleOpen])
-const handleDayPickerClose = useCallback(() => {
-  handleOpen(false)
-}, [handleOpen])
-
-// ...
-
-// 4. Pass the value returned from the hook to the date picker
-// 5. Don't forget to pass the onCloseClick handler
-return <DayPicker {...dayPicker} onCloseClick={handleDayPickerClose} />
-```
-
-## Example
-
-An example of date picker using styled-components
-
-<details>
-<summary>Example</summary>
-
-```javascript
-const Box = styled.div`
-  padding: 0 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-
-  figure figcaption h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #444;
-    padding-top: 15px;
-  }
-
-  .datepicker__input-box {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .demo__input {
-    border: 1px solid #dadada;
-    width: 250px;
-    padding: 10px;
-    cursor: text;
-    border-radius: 4px;
-
-    &::placeholder {
-      color: 1px solid #b5b5b5;
-    }
-  }
-
-  hr {
-    border: 0;
-    border-top: 1px solid #dadada;
-    margin: 0;
-  }
-`
-
-function App() {
+const App = () => {
+  // 1. Use the hook provided
   const datePicker = useDatePicker()
-  // Extract what we need from the hook
+
+  // 2. Extract what you need from the hook
   const { handleOpen, startDate, endDate } = datePicker
-  // Create handlers that open/close the date picker
+
+  // 3. Create handlers that open/close the date picker
   const handleDatePickerOpen = useCallback(() => {
     handleOpen(true)
   }, [handleOpen])
@@ -140,7 +34,8 @@ function App() {
     handleOpen(false)
   }, [handleOpen])
 
-  // Additionally, we can format the date strings
+  // ...
+
   const startDateString = useMemo(() => {
     return startDate ? getYearMonthDate(startDate) : ''
   }, [startDate])
@@ -149,42 +44,82 @@ function App() {
   }, [endDate])
 
   return (
-    <Box>
-      <figure>
-        <figcaption>
-          <h1>Date Picker</h1>
-        </figcaption>
-        <div className="datepicker__input-box">
-          <input
-            type="text"
-            className="demo__input"
-            readOnly
-            placeholder="Start Date"
-            value={startDateString}
-            onClick={handleDatePickerOpen}
-          />
-          <input
-            type="text"
-            className="demo__input"
-            readOnly
-            placeholder="End Date"
-            value={endDateString}
-            onClick={handleDatePickerOpen}
-          />
-          <DatePicker
-            {...datePicker}
-            onCloseClick={handleDatePickerClose}
-            isRange
-            id="demo"
-          />
-        </div>
-      </figure>
-    </Box>
+    <>
+      {/* 4. Link handlers that open/close the date picker
+          5. Make inputs controlled components */}
+      <input
+        type="text"
+        placeholder="Start date"
+        value={startDateString}
+        onClick={handleDatePickerOpen}
+      />
+      <input
+        type="text"
+        placeholder="End date"
+        value={endDateString}
+        onClick={handleDatePickerOpen}
+      />
+      {/* 6. Pass the value returned from the hook to the date picker
+          7. Don't forget to pass the onCloseClick handler */}
+      <DatePicker {...datePicker} onCloseClick={handleDatePickerClose} />
+    </>
   )
 }
+
+export default App
 ```
 
-</details>
+### DayPicker
+
+```javascript
+import { useCallback, useMemo } from 'react'
+import { DayPicker, useDayPicker } from 'sp-date-picker'
+
+const App = () => {
+  // 1. Use the hook provided
+  const dayPicker = useDayPicker()
+
+  // 2. Extract what you need from the hook
+  const { selectedDay, handleOpen } = dayPicker
+
+  // 3. Create handlers that open/close the date picker
+  const handleDayPickerOpen = useCallback(() => {
+    handleOpen(true)
+  }, [handleOpen])
+  const handleDayPickerClose = useCallback(() => {
+    handleOpen(false)
+  }, [handleOpen])
+
+  const selectedDayString = useMemo(() => {
+    return selectedDay > 0 ? `Day ${selectedDay}` : ''
+  }, [selectedDay])
+
+  return (
+    <>
+      {/* 4. Link handlers that open/close the date picker
+          5. Make input controlled component */}
+      <input
+        type="text"
+        placeholder="Pick a day!"
+        value={selectedDayString}
+        onClick={handleDayPickerOpen}
+      /> {/* 6. Pass the value returned from the hook to the day picker
+          7. Don't forget to pass the onCloseClick handler */}
+      <DayPicker {...dayPicker} onCloseClick={handleDayPickerClose} />
+    </>
+  )
+}
+
+export default App
+```
+
+## Screenshots
+
+![range picker](assets/range-picker.png)
+
+<br/>
+
+![day picker](assets/day-picker.png)
 
 ## Custom Styling
 
@@ -271,55 +206,55 @@ There are the props you might be interested in.
 
 ### DatePicker
 
-| Option                  | Required           | Description                                          | Default           | Type                                  |
-| ----------------------- | ------------------ | ---------------------------------------------------- | ----------------- | ------------------------------------- |
-| title                   |                    | Title of the date picker                             | Pick dates range! | string                                |
-| date                    | <center>o</center> | Currently selected date (used on day picker)         |                   | Date                                  |
-| startDate               | <center>o</center> | Currently selected start date (used on range picker) |                   | Date                                  |
-| endDate                 | <center>o</center> | Currently selected end date (used on range picker)   |                   | Date                                  |
-| open                    | <center>o</center> | Whether the date picker is open or not               | false             | boolean                               |
-| onConfirmClick          | <center>o</center> | Clled when confirm button is clicked                 |                   | ({ date, startDate, endDate}) => void |
-| onCloseClick            | <center>o</center> | Called when close button is clicked                  |                   | () => void                            |
-| onBackdropClick         |                    | Called when backdrop is clicked                      |                   | () => void                            |
-| isRange                 |                    | Whether the date picker is a range picker or not     | true              | boolean                               |
-| disablePast             |                    | Whether to disable past dates when start date is set | false             | boolean                               |
-| style                   |                    | CSS styles to be applied to the date picker          |                   | CSSProperties                         |
-| customSelectMonthMotion |                    | Motion to be applied to the month selection          |                   | AnimationProps (framer-motion)        |
-| customSelectDayMotion   |                    | Motion to be applied to the day selection            |                   | AnimationProps (framer-motion)        |
+| Option                  | Required | Description                                          | Default           | Type                                  |
+| ----------------------- | -------- | ---------------------------------------------------- | ----------------- | ------------------------------------- |
+| title                   |          | Title of the date picker                             | Pick dates range! | string                                |
+| date                    | \*       | Currently selected date (used on day picker)         |                   | Date                                  |
+| startDate               | \*       | Currently selected start date (used on range picker) |                   | Date                                  |
+| endDate                 | \*       | Currently selected end date (used on range picker)   |                   | Date                                  |
+| open                    | \*       | Whether the date picker is open or not               | false             | boolean                               |
+| onConfirmClick          | \*       | Clled when confirm button is clicked                 |                   | ({ date, startDate, endDate}) => void |
+| onCloseClick            | \*       | Called when close button is clicked                  |                   | () => void                            |
+| onBackdropClick         |          | Called when backdrop is clicked                      |                   | () => void                            |
+| isRange                 |          | Whether the date picker is a range picker or not     | true              | boolean                               |
+| disablePast             |          | Whether to disable past dates when start date is set | false             | boolean                               |
+| style                   |          | CSS styles to be applied to the date picker          |                   | CSSProperties                         |
+| customSelectMonthMotion |          | Motion to be applied to the month selection          |                   | AnimationProps (framer-motion)        |
+| customSelectDayMotion   |          | Motion to be applied to the day selection            |                   | AnimationProps (framer-motion)        |
 
 ### DayPicker
 
-| Option          | Required           | Description                                  | Default             | Type                           |
-| --------------- | ------------------ | -------------------------------------------- | ------------------- | ------------------------------ |
-| title           |                    | Title of the date picker                     | Pick a day!         | string                         |
-| selectedDay     | <center>o</center> | Currently selected day                       | <center>-1</center> | number                         |
-| open            | <center>o</center> | Whether the date picker is open or not       | false               | boolean                        |
-| onDayClick      | <center>o</center> | Called when a day is clicked                 |                     | (day: number) => void          |
-| onCloseClick    | <center>o</center> | Called when close button is clicked          |                     | () => void                     |
-| onBackdropClick |                    | Called when backdrop is clicked              |                     | () => void                     |
-| style           |                    | CSS styles to be applied to the date picker  |                     | CSSProperties                  |
-| customMotion    |                    | Motion to be applied to the picker container |                     | AnimationProps (framer-motion) |
+| Option          | Required | Description                                  | Default     | Type                           |
+| --------------- | -------- | -------------------------------------------- | ----------- | ------------------------------ |
+| title           |          | Title of the date picker                     | Pick a day! | string                         |
+| selectedDay     | \*       | Currently selected day                       | -1          | number                         |
+| open            | \*       | Whether the date picker is open or not       | false       | boolean                        |
+| onDayClick      | \*       | Called when a day is clicked                 |             | (day: number) => void          |
+| onCloseClick    | \*       | Called when close button is clicked          |             | () => void                     |
+| onBackdropClick |          | Called when backdrop is clicked              |             | () => void                     |
+| style           |          | CSS styles to be applied to the date picker  |             | CSSProperties                  |
+| customMotion    |          | Motion to be applied to the picker container |             | AnimationProps (framer-motion) |
 
 Most of props are given by the hook provided. Use javascript deconstruction to extract what you need. See the example below.
 
 ```javascript
-// DatePicker - range picker
+// DatePicker - a range picker
 const datePicker = useDatePicker()
 const { startDate, endDate } = datePicker
 
-// DatePicker - day picker
+// DatePicker - a day picker
 const datePicker = useDatePicker()
 const { date } = datePicker
 
 // DayPicker
-const datePicker = useDayPicker()
-const { selectedDay } = datePicker
+const dayPicker = useDayPicker()
+const { selectedDay } = dayPicker
 ```
 
 Extract handlers to create open/close handlers.
 
 ```javascript
-const datePicker = useDayPicker()
+const datePicker = useDatePicker()
 const { handleOpen } = datePicker
 
 const handleDatePickerOpen = useCallback(() => {

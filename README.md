@@ -8,7 +8,7 @@ It comes with two components and utility functions to help you with date manipul
 ## Installation
 
 ```bash
-npm install sp-date-picker
+TBA
 ```
 
 ## Usage
